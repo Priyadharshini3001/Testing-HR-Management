@@ -15,26 +15,11 @@ public class AdminPage extends BasePage {
         this.driver = driver;
     }
 
+    By adminMenu =
+            By.xpath("//span[text()='Admin']");
+
     public void openAdmin() {
 
-        driver.findElement(
-                        By.xpath("//span[text()='Admin']"))
-                .click();
-    }
-
-    public void createUser(
-            String role,
-            String username,
-            String password) {
-
-        driver.findElement(
-                        By.xpath("//button[text()=' Add ']"))
-                .click();
-    }
-
-    public boolean verifyUser(String username) {
-
-        return driver.getPageSource()
-                .contains(username);
+        driver.findElement(adminMenu).click();
     }
 }

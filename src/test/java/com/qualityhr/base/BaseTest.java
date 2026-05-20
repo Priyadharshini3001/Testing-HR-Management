@@ -12,7 +12,6 @@ public class BaseTest {
     public WebDriver driver;
 
     @BeforeMethod
-
     public void setup() {
 
         driver = new ChromeDriver();
@@ -22,15 +21,13 @@ public class BaseTest {
         driver.manage().timeouts()
                 .implicitlyWait(Duration.ofSeconds(10));
 
-        driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+        driver.get("https://opensource-demo.orangehrmlive.com/");
     }
 
     @AfterMethod
-
     public void tearDown() {
 
         if(driver != null) {
-
             driver.quit();
         }
     }

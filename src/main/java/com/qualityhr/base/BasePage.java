@@ -17,15 +17,20 @@ public class BasePage {
 
         this.driver = driver;
 
-        wait = new WebDriverWait(driver,
+        wait = new WebDriverWait(
+                driver,
                 Duration.ofSeconds(
                         Integer.parseInt(
                                 ConfigReader.getProperty("timeout")
-                        )));
+                        )
+                )
+        );
     }
 
     public void waitForElement(WebElement element) {
 
-        wait.until(ExpectedConditions.visibilityOf(element));
+        wait.until(
+                ExpectedConditions.visibilityOf(element)
+        );
     }
 }

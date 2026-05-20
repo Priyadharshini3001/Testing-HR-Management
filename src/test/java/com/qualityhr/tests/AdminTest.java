@@ -3,7 +3,6 @@ package com.qualityhr.tests;
 import com.qualityhr.base.BaseTest;
 import com.qualityhr.pages.AdminPage;
 import com.qualityhr.pages.LoginPage;
-import com.qualityhr.utils.ConfigReader;
 import org.testng.annotations.Test;
 
 public class AdminTest extends BaseTest {
@@ -14,9 +13,7 @@ public class AdminTest extends BaseTest {
         LoginPage loginPage =
                 new LoginPage(driver);
 
-        loginPage.login(
-                ConfigReader.getProperty("username"),
-                ConfigReader.getProperty("password"));
+        loginPage.login("Admin", "admin123");
 
         AdminPage adminPage =
                 new AdminPage(driver);

@@ -2,6 +2,12 @@ package com.qualityhr.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+import java.util.List;
 
 public class EmployeePage {
 
@@ -12,87 +18,188 @@ public class EmployeePage {
         this.driver = driver;
     }
 
-    By pimMenu =
-            By.xpath("//span[text()='PIM']");
+    // Locators
+    By pimMenu = By.xpath("//span[text()='PIM']");
+    By addEmployeeBtn = By.xpath("//a[text()='Add Employee']");
+    By firstNameField = By.name("firstName");
+    By lastNameField = By.name("lastName");
+    By saveBtn = By.xpath("//button[@type='submit']");
+    By personalDetailsHeader =
+            By.xpath("//h6[text()='Personal Details']");
 
-    By addEmployeeBtn =
-            By.xpath("//a[text()='Add Employee']");
+    // Open PIM
+    public void openPIM() {
 
-    By firstName =
-            By.name("firstName");
+        WebDriverWait wait =
+                new WebDriverWait(driver, Duration.ofSeconds(20));
 
-    By lastName =
-            By.name("lastName");
-
-    By saveBtn =
-            By.xpath("//button[@type='submit']");
-
-    By employeeList =
-            By.xpath("//a[text()='Employee List']");
-
-    By searchBox =
-            By.xpath("(//input[@placeholder='Type for hints...'])[1]");
-
-    By searchBtn =
-            By.xpath("//button[@type='submit']");
-
-    public void addEmployee(String fName,
-                            String lName) {
+        wait.until(ExpectedConditions
+                .visibilityOfElementLocated(pimMenu));
 
         driver.findElement(pimMenu).click();
+    }
+
+    // Click Add Employee
+    public void clickAddEmployee() {
+
+        WebDriverWait wait =
+                new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        wait.until(ExpectedConditions
+                .elementToBeClickable(addEmployeeBtn));
 
         driver.findElement(addEmployeeBtn).click();
+    }
 
-        driver.findElement(firstName).sendKeys(fName);
+    // Enter First Name
+    public void enterFirstName(String firstName) {
 
-        driver.findElement(lastName).sendKeys(lName);
+        WebDriverWait wait =
+                new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        wait.until(ExpectedConditions
+                .visibilityOfElementLocated(firstNameField));
+
+        driver.findElement(firstNameField)
+                .sendKeys(firstName);
+    }
+
+    // Enter Last Name
+    public void enterLastName(String lastName) {
+
+        driver.findElement(lastNameField)
+                .sendKeys(lastName);
+    }
+
+    // Click Save
+    public void clickSave() {
+
+        WebDriverWait wait =
+                new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        wait.until(ExpectedConditions
+                .elementToBeClickable(saveBtn));
 
         driver.findElement(saveBtn).click();
     }
 
+    // Add Employee Full Flow
+    public void addEmployee(String firstName,
+                            String lastName) {
+
+        openPIM();
+
+        clickAddEmployee();
+
+        enterFirstName(firstName);
+
+        enterLastName(lastName);
+
+        clickSave();
+    }
+
+    // Verify Employee Added
     public boolean isEmployeeAdded() {
 
-        return driver.getPageSource()
-                .contains("Personal Details");
+        try {
+
+            WebDriverWait wait =
+                    new WebDriverWait(driver,
+                            Duration.ofSeconds(20));
+
+            WebElement personalDetails = wait.until(
+                    ExpectedConditions
+                            .visibilityOfElementLocated(
+                                    personalDetailsHeader));
+
+            return personalDetails.isDisplayed();
+
+        } catch (Exception e) {
+
+            return false;
+        }
     }
 
-    public void searchEmployee(String name) {
+    // Search Employee
+    public void searchEmployee(String employeeName) {
 
-        driver.findElement(pimMenu).click();
+        WebDriverWait wait =
+                new WebDriverWait(driver,
+                        Duration.ofSeconds(20));
 
-        driver.findElement(employeeList).click();
+        openPIM();
 
-        driver.findElement(searchBox).sendKeys(name);
+        WebElement searchBox = wait.until(
+                ExpectedConditions
+                        .visibilityOfElementLocated(
+                                By.xpath("(//input[@placeholder='Type for hints...'])[1]")));
 
-        driver.findElement(searchBtn).click();
+        searchBox.clear();
+
+        searchBox.sendKeys(employeeName);
+
+        wait.until(ExpectedConditions
+                        .elementToBeClickable(saveBtn))
+                .click();
+
+        wait.until(ExpectedConditions
+                .visibilityOfElementLocated(
+                        By.xpath("//div[@class='oxd-table-body']")));
     }
+
+    // Verify Employee Found
+    public boolean isEmployeeFound(String employeeName) {
+
+        try {
+
+            WebDriverWait wait =
+                    new WebDriverWait(driver,
+                            Duration.ofSeconds(20));
+
+            wait.until(ExpectedConditions
+                    .visibilityOfElementLocated(
+                            By.xpath("//div[@class='oxd-table-card']")));
+
+            List<WebElement> rows =
+                    driver.findElements(
+                            By.xpath("//div[@class='oxd-table-card']"));
+
+            for (WebElement row : rows) {
+
+                if (row.getText()
+                        .contains(employeeName)) {
+
+                    return true;
+                }
+            }
+
+            return false;
+
+        } catch (Exception e) {
+
+            return false;
+        }
+    }
+
+    // Validation Message
     public boolean isValidationDisplayed() {
-        return driver.getPageSource()
-                .contains("Required");
-    }
 
-    public void openPIM() {
+        try {
 
-        driver.findElement(pimMenu)
-                .click();
-    }
+            WebDriverWait wait =
+                    new WebDriverWait(driver,
+                            Duration.ofSeconds(20));
 
-    public void clickAddEmployee() {
+            WebElement validationMessage = wait.until(
+                    ExpectedConditions
+                            .visibilityOfElementLocated(
+                                    By.xpath("//span[text()='Required']")));
 
-        driver.findElement(addEmployeeBtn)
-                .click();
-    }
+            return validationMessage.isDisplayed();
 
-    public void clickSave() {
+        } catch (Exception e) {
 
-        driver.findElement(saveBtn)
-                .click();
-    }
-
-
-    public boolean isEmployeeFound(String name) {
-
-        return driver.getPageSource()
-                .contains(name);
+            return false;
+        }
     }
 }

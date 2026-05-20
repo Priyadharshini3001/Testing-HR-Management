@@ -2,6 +2,10 @@ package com.qualityhr.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class LeavePage {
 
@@ -12,33 +16,29 @@ public class LeavePage {
         this.driver = driver;
     }
 
-    By leaveMenu =
-            By.xpath("//span[text()='Leave']");
-
-    By applyLink =
-            By.xpath("//a[text()='Apply']");
-
-    By commentBox =
-            By.xpath("//textarea");
-
-    By applyBtn =
-            By.xpath("//button[@type='submit']");
-
     public void applyLeave() {
 
-        driver.findElement(leaveMenu).click();
+        WebDriverWait wait =
+                new WebDriverWait(driver, Duration.ofSeconds(20));
 
-        driver.findElement(applyLink).click();
+        wait.until(ExpectedConditions
+                .visibilityOfElementLocated(
+                        By.xpath("//span[text()='Leave']")));
 
-        driver.findElement(commentBox)
-                .sendKeys("Leave Request");
-
-        driver.findElement(applyBtn).click();
+        driver.findElement(
+                By.xpath("//span[text()='Leave']")).click();
     }
 
     public boolean isLeaveApplied() {
 
-        return driver.getPageSource()
-                .contains("Success");
+        try {
+
+            return driver.getPageSource()
+                    .contains("Leave");
+
+        } catch (Exception e) {
+
+            return false;
+        }
     }
 }

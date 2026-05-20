@@ -2,7 +2,6 @@ package com.qualityhr.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 public class LoginPage {
 
@@ -13,29 +12,25 @@ public class LoginPage {
         this.driver = driver;
     }
 
-    By username =
+    By usernameField =
             By.name("username");
 
-    By password =
+    By passwordField =
             By.name("password");
 
-    By loginBtn =
+    By loginButton =
             By.xpath("//button[@type='submit']");
 
-    public void login(String user, String pass) {
+    public void login(String username,
+                      String password) {
 
-        WebElement userField =
-                driver.findElement(username);
+        driver.findElement(usernameField)
+                .sendKeys(username);
 
-        userField.clear();
-        userField.sendKeys(user);
+        driver.findElement(passwordField)
+                .sendKeys(password);
 
-        WebElement passField =
-                driver.findElement(password);
-
-        passField.clear();
-        passField.sendKeys(pass);
-
-        driver.findElement(loginBtn).click();
+        driver.findElement(loginButton)
+                .click();
     }
 }
