@@ -4,8 +4,7 @@
 
     <listeners>
 
-        <listener class-name=
-                          "com.qualityhr.listeners.TestListener"/>
+        <listener class-name="com.qualityhr.listeners.TestListener"/>
 
     </listeners>
 
