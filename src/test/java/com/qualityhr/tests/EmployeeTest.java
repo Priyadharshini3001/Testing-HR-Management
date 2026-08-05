@@ -8,41 +8,43 @@ import org.testng.annotations.Test;
 
 public class EmployeeTest extends BaseTest {
 
-    @Test
+    @Test(priority = 1)
     public void addEmployeeTest() {
 
-        LoginPage loginPage =
-                new LoginPage(driver);
-
+        LoginPage loginPage = new LoginPage(driver);
         loginPage.login("Admin", "admin123");
 
-        EmployeePage employee =
-                new EmployeePage(driver);
+        EmployeePage employeePage = new EmployeePage(driver);
 
-        employee.addEmployee("Priya", "S");
+        String firstName = "Priya";
+        String lastName = "S";
+
+        employeePage.addEmployee(firstName, lastName);
 
         Assert.assertTrue(
-                employee.isEmployeeAdded());
+                employeePage.isEmployeeAdded(),
+                "Employee was not added successfully!"
+        );
     }
 
-    @Test
+    @Test(priority = 2)
     public void searchEmployeeTest() {
 
-        LoginPage loginPage =
-                new LoginPage(driver);
-
+        LoginPage loginPage = new LoginPage(driver);
         loginPage.login("Admin", "admin123");
 
-        EmployeePage employee =
-                new EmployeePage(driver);
+        EmployeePage employeePage = new EmployeePage(driver);
 
-        // First Add Employee
-        employee.addEmployee("Priya", "S");
+        String firstName = "Priya";
+        String lastName = "S";
 
-        // Then Search Employee
-        employee.searchEmployee("Priya");
+        employeePage.addEmployee(firstName, lastName);
+
+        employeePage.searchEmployee(firstName);
 
         Assert.assertTrue(
-                employee.isEmployeeFound("Priya"));
+                employeePage.isEmployeeFound(firstName),
+                "Employee search failed!"
+        );
     }
 }

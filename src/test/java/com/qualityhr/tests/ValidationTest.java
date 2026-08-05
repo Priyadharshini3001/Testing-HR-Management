@@ -11,19 +11,13 @@ public class ValidationTest extends BaseTest {
     @Test
     public void verifyEmptyFieldsValidation() {
 
-        LoginPage loginPage =
-                new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.login("Admin", "admin123");
 
-        loginPage.login("Admin",
-                "admin123");
-
-        EmployeePage employeePage =
-                new EmployeePage(driver);
+        EmployeePage employeePage = new EmployeePage(driver);
 
         employeePage.openPIM();
-
         employeePage.clickAddEmployee();
-
         employeePage.clickSave();
 
         Assert.assertTrue(

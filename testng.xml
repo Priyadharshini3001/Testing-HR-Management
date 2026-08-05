@@ -1,11 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 
-<suite name="QualityHR Suite">
+<suite name="HR Automation Suite">
 
     <listeners>
-
         <listener class-name="com.qualityhr.listeners.TestListener"/>
-
     </listeners>
 
     <test name="HR Tests">
@@ -13,10 +13,14 @@
         <classes>
 
             <class name="com.qualityhr.tests.LoginTest"/>
-            <class name="com.qualityhr.tests.EmployeeTest"/>
-            <class name="com.qualityhr.tests.LeaveTest"/>
-            <class name="com.qualityhr.tests.AdminTest"/>
+
             <class name="com.qualityhr.tests.ValidationTest"/>
+
+            <class name="com.qualityhr.tests.EmployeeTest"/>
+
+            <class name="com.qualityhr.tests.AdminTest"/>
+
+            <class name="com.qualityhr.tests.LeaveTest"/>
 
         </classes>
 

@@ -15,25 +15,21 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestStart(ITestResult result) {
-
         test = extent.createTest(result.getName());
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-
         test.pass("Test Passed");
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-
-        test.fail("Test Failed");
+        test.fail(result.getThrowable());
     }
 
     @Override
     public void onFinish(ITestContext context) {
-
         extent.flush();
     }
 }
